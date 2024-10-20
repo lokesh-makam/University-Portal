@@ -218,7 +218,7 @@ public class Student extends Users {
 
                     int courseCredits = resultSet.getInt("credits");
 
-                    // Check current number of registrations
+                    // Checking current number of registrations
                     int courseLimit = resultSet.getInt("course_limit");
                     int noOfRegistrations = resultSet.getInt("no_of_registration");
 
@@ -228,7 +228,7 @@ public class Student extends Users {
                         continue;
                     }
 
-                    // Check credit limit
+                    // Checking credit limit
                     if (totalCredits + courseCredits > 20) {
                         System.out.println("Total credits cannot exceed 20 for the current semester. You cannot register for this course.");
                         continue;
@@ -273,13 +273,14 @@ public class Student extends Users {
 
     void viewSchedule() {
         try {
-            String query = "SELECT c.title, c.timings, c.location, p.name AS professor_name FROM Courses c  JOIN Professors p ON c.professor_id = p.professor_id WHERE c.course_code IN ( SELECT e.course_code FROM Enrollments e WHERE e.student_id = ?)";
-            ResultSet resultSet = dbHelper.executeQuery(query,studentId);
+            String query = "SELECT c.title, c.timings, c.course_code, c.location, p.name AS professor_name FROM Courses c  JOIN Professors p ON c.professor_id = p.professor_id WHERE c.course_code IN ( SELECT e.course_code FROM Enrollments e WHERE e.student_id = ? and semester=? )";
+            ResultSet resultSet = dbHelper.executeQuery(query,studentId,semester);
             if (resultSet.next()) {
                 do {
-                    System.out.println("Course title : " + resultSet.getString("title"));
-                    System.out.println("Timing : " + resultSet.getString("timings"));
-                    System.out.println("Location : " + resultSet.getString("location"));
+                    System.out.println("Course title   : " + resultSet.getString("title"));
+                    System.out.println("Course Code    : " + resultSet.getString("course_code"));
+                    System.out.println("Timing         : " + resultSet.getString("timings"));
+                    System.out.println("Location       : " + resultSet.getString("location"));
                     System.out.println("Professor Name : " + resultSet.getString("professor_name"));
                     System.out.println("----------------------------------");
                 } while (resultSet.next());

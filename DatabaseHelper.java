@@ -28,10 +28,6 @@ public class DatabaseHelper {
         return ps.executeUpdate();
     }
 
-    public void closeResources(ResultSet rs) throws SQLException {
-        if (rs != null) rs.close();
-    }
-
     public void closeConnection() throws SQLException {
         if (resultSet != null) resultSet.close();
         if (ps != null) ps.close();

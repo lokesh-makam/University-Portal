@@ -72,7 +72,6 @@ public class Professor extends Users {
                 }
             } else {
                 System.out.println("User not found please sign up");
-                getInfo();
             }
 
         } catch (SQLException e) {

@@ -17,7 +17,7 @@ abstract public class Users {
     }
 
     void logOut() {
-        System.out.println("All change saved");
+        System.out.println("All changes saved");
         System.out.println("Successfully loged out");
     }
 }

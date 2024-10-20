@@ -34,7 +34,7 @@ public class Administrator extends Users {
     }
 
     public boolean isValidUser() {
-        if (email.equals(adminEmail) && password.equals(adminPassword)) {
+        if (email.equalsIgnoreCase(adminEmail) && password.equals(adminPassword)) {
             System.out.println("Logged in Successfully");
             System.out.println("----------------------------------");
             return true;
@@ -143,9 +143,9 @@ public class Administrator extends Users {
         int n = Main.scanner.nextInt();
         while (n-- > 0) {
             try {
-                String query = "INSERT INTO Courses (course_code, title, professor_id," +
+                String query = "INSERT INTO Courses (course_code, title, " +
                         "credits, prerequisites, timings, semester, location, syllabus, course_limit)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 Main.scanner.nextLine();
 
@@ -155,15 +155,13 @@ public class Administrator extends Users {
                 System.out.print("Enter title: ");
                 String title = Main.scanner.nextLine();
 
-                System.out.print("Enter professor ID: ");
-                int professorId = Main.scanner.nextInt();
-
                 System.out.print("Enter credits: ");
                 int credits = Main.scanner.nextInt();
 
                 System.out.print("Enter prerequisites: ");
                 Main.scanner.nextLine();
-                String prerequisites = Main.scanner.nextLine();
+                String input = Main.scanner.nextLine().trim();
+                String prerequisites = input.equalsIgnoreCase("null") || input.isEmpty() ? null : input;
 
                 System.out.print("Enter timings: ");
                 String timings = Main.scanner.nextLine();
@@ -181,7 +179,7 @@ public class Administrator extends Users {
                 System.out.print("Enter limit: ");
                 int course_limit = Main.scanner.nextInt();
 
-                int rowsAffected = dbHelper.executeUpdate(query, courseCode, title, professorId, credits, prerequisites, timings, semester, location, syllabus, course_limit);
+                int rowsAffected = dbHelper.executeUpdate(query, courseCode, title, credits, prerequisites, timings, semester, location, syllabus, course_limit);
 
                 if (rowsAffected > 0) {
                     System.out.println("Course inserted successfully.");
@@ -361,9 +359,9 @@ public class Administrator extends Users {
                 System.out.println("Enter the course code:");
                 String courseCode = Main.scanner.next();
 
-                query = "UPDATE Courses" +
-                        "SET professor_id = ?" +
-                        "WHERE course_code = ?;";
+                query = "UPDATE Courses " +
+                        " SET professor_id = ? " +
+                        " WHERE course_code = ? ";
                 int result = dbHelper.executeUpdate(query, id, courseCode);
 
                 if (result > 0) {
